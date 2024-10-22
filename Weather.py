@@ -73,17 +73,21 @@ humidity = 'Humid:' + str(weather_data.json().get('main').get('humidity')) + '%'
 # Wind
 wind = 'Wind:' + str(weather_data.json().get('wind').get('speed')) + 'mps ' + str(weather_data.json().get('wind').get('deg')) + '*'
 
-print("###################################################")
-print(wind)
-print(pressure)
-print(temperature)
-print(description)
-print(location)
-print("###################################################")
+while True:
 
-oled.text(wind , 0 ,0)
-oled.text(pressure,0,10)
-oled.text(temperature,0,20)
-oled.text(description,0,30)
-oled.text(location,0,40)
-oled.show()
+    print("###################################################")
+    print(wind)
+    print(pressure)
+    print(temperature)
+    print(description)
+    print(location)
+    print("###################################################")
+
+    time.sleep(1)
+
+    oled.text(wind , 0 ,0)
+    oled.text(pressure,0,10)
+    oled.text(temperature,0,20)
+    oled.text(description,0,30)
+    oled.text(location,0,40)
+    oled.show()
