@@ -1,4 +1,6 @@
 import time
+from machine import Pin, SoftI2C
+import ssd1306
 
 try:
   import urequests as requests
@@ -14,6 +16,12 @@ import network
 
 import gc
 gc.collect()
+
+i2c = SoftI2C(scl=Pin(5), sda=Pin(4))
+
+oled_width = 128
+oled_height = 64
+oled = ssd1306.SSD1306_I2C(oled_width, oled_height, i2c)
 
 ssid = ' ' # Put your SSID here
 password = 'password' # Put your WiFi Password here
@@ -43,10 +51,10 @@ open_weather_map_url = 'http://api.openweathermap.org/data/2.5/weather?q=' + cit
 weather_data = requests.get(open_weather_map_url)
 
 # Location (City and Country code)
-location = 'Location: ' + weather_data.json().get('name') + ' - ' + weather_data.json().get('sys').get('country')
+location = 'Loc:' + weather_data.json().get('name') + ' - ' + weather_data.json().get('sys').get('country')
 
 # Weather Description
-description = 'Description: ' + weather_data.json().get('weather')[0].get('main')
+description = 'Desc:' + weather_data.json().get('weather')[0].get('main')
 
 # Temperature
 raw_temperature = weather_data.json().get('main').get('temp')-273.15
@@ -54,16 +62,16 @@ raw_temperature = weather_data.json().get('main').get('temp')-273.15
 # Temperature in Celsius
 #temperature = 'Temperature: ' + str(raw_temperature) + '*C'
 #uncomment for temperature in Fahrenheit
-temperature = 'Temperature: ' + str(raw_temperature*(9/5.0)+32) + '*F'
+temperature = 'Temp:' + str(raw_temperature*(9/5.0)+32)
 
 # Pressure
-pressure = 'Pressure: ' + str(weather_data.json().get('main').get('pressure')) + 'hPa'
+pressure = 'Pres:' + str(weather_data.json().get('main').get('pressure')) + 'hPa'
 
 # Humidity
-humidity = 'Humidity: ' + str(weather_data.json().get('main').get('humidity')) + '%'
+humidity = 'Humid:' + str(weather_data.json().get('main').get('humidity')) + '%'
 
 # Wind
-wind = 'Wind: ' + str(weather_data.json().get('wind').get('speed')) + 'mps ' + str(weather_data.json().get('wind').get('deg')) + '*'
+wind = 'Wind:' + str(weather_data.json().get('wind').get('speed')) + 'mps ' + str(weather_data.json().get('wind').get('deg')) + '*'
 
 print("###################################################")
 print(wind)
@@ -72,3 +80,10 @@ print(temperature)
 print(description)
 print(location)
 print("###################################################")
+
+oled.text(wind , 0 ,0)
+oled.text(pressure,0,10)
+oled.text(temperature,0,20)
+oled.text(description,0,30)
+oled.text(location,0,40)
+oled.show()
