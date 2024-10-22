@@ -60,7 +60,7 @@ open_weather_map_url = 'http://api.openweathermap.org/data/2.5/weather?q=' + cit
 weather_data = requests.get(open_weather_map_url)
 
 # Location (City and Country code)
-location = 'Loc:' + weather_data.json().get('name') + ' - ' + weather_data.json().get('sys').get('country')
+location = weather_data.json().get('name') + ' - ' + weather_data.json().get('sys').get('country')
 
 # Weather Description
 description = 'Desc:' + weather_data.json().get('weather')[0].get('main')
