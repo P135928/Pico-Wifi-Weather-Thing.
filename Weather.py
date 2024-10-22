@@ -54,38 +54,38 @@ oled.fill(0)
 oled.text("Connected!",0,0)
 oled.show()
 
-#set your unique OpenWeatherMap.org URL
-open_weather_map_url = 'http://api.openweathermap.org/data/2.5/weather?q=' + city + ',' + country_code + '&APPID=' + open_weather_map_api_key
-
-weather_data = requests.get(open_weather_map_url)
-
-# Location (City and Country code)
-location = weather_data.json().get('name') + ' - ' + weather_data.json().get('sys').get('country')
-
-# Weather Description
-description = 'Desc:' + weather_data.json().get('weather')[0].get('main')
-
-# Temperature
-raw_temperature = weather_data.json().get('main').get('temp')-273.15
-
-# Temperature in Celsius
-#temperature = 'Temperature: ' + str(raw_temperature) + '*C'
-#uncomment for temperature in Fahrenheit
-temperature = 'Temp:' + str(raw_temperature*(9/5.0)+32)
-
-# Pressure
-pressure = 'Pres:' + str(weather_data.json().get('main').get('pressure')) + 'hPa'
-
-# Humidity
-humidity = 'Humid:' + str(weather_data.json().get('main').get('humidity')) + '%'
-
-# Wind
-wind = 'Wind:' + str(weather_data.json().get('wind').get('speed')) + 'mps ' + str(weather_data.json().get('wind').get('deg')) + '*'
-
 oled.fill(0)
 oled.show()
-
 while True:
+    time.sleep(1)
+    #set your unique OpenWeatherMap.org URL
+    open_weather_map_url = 'http://api.openweathermap.org/data/2.5/weather?q=' + city + ',' + country_code + '&APPID=' + open_weather_map_api_key
+
+    weather_data = requests.get(open_weather_map_url)
+
+    # Location (City and Country code)
+    location = weather_data.json().get('name') + ' - ' + weather_data.json().get('sys').get('country')
+
+    # Weather Description
+    description = 'Desc:' + weather_data.json().get('weather')[0].get('main')
+
+    # Temperature
+    raw_temperature = weather_data.json().get('main').get('temp')-273.15
+
+    # Temperature in Celsius
+    #temperature = 'Temperature: ' + str(raw_temperature) + '*C'
+    #uncomment for temperature in Fahrenheit
+    temperature = 'Temp:' + str(raw_temperature*(9/5.0)+32)
+
+    # Pressure
+    pressure = 'Pres:' + str(weather_data.json().get('main').get('pressure')) + 'hPa'
+
+    # Humidity
+    humidity = 'Humid:' + str(weather_data.json().get('main').get('humidity')) + '%'
+
+    # Wind
+    wind = 'Wind:' + str(weather_data.json().get('wind').get('speed')) + 'mps ' + str(weather_data.json().get('wind').get('deg')) + '*'
+
     oled.text(wind , 0 ,0)
     oled.text(pressure,0,10)
     oled.text(temperature,0,20)
