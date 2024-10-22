@@ -26,6 +26,11 @@ oled = ssd1306.SSD1306_I2C(oled_width, oled_height, i2c)
 ssid = ' ' # Put your SSID here
 password = 'password' # Put your WiFi Password here
 
+oled.fill(0)
+oled.text("Attempting to",0,0)
+oled.text("Connect",0,10)
+oled.show()
+
 city = 'Phoenix' # This is the city you live in
 country_code = 'US' # This is your 2 letter country code, I think it can be more too.
 #example
@@ -44,6 +49,10 @@ while station.isconnected() == False:
 
 print('Connection successful')
 print(station.ifconfig())
+
+oled.fill(0)
+oled.text("Connected!",0,0)
+oled.show()
 
 #set your unique OpenWeatherMap.org URL
 open_weather_map_url = 'http://api.openweathermap.org/data/2.5/weather?q=' + city + ',' + country_code + '&APPID=' + open_weather_map_api_key
@@ -73,21 +82,20 @@ humidity = 'Humid:' + str(weather_data.json().get('main').get('humidity')) + '%'
 # Wind
 wind = 'Wind:' + str(weather_data.json().get('wind').get('speed')) + 'mps ' + str(weather_data.json().get('wind').get('deg')) + '*'
 
+oled.fill(0)
+oled.show()
+
 while True:
-
-    print("###################################################")
-    print(wind)
-    print(pressure)
-    print(temperature)
-    print(description)
-    print(location)
-    print("###################################################")
-
-    time.sleep(1)
-
     oled.text(wind , 0 ,0)
     oled.text(pressure,0,10)
     oled.text(temperature,0,20)
     oled.text(description,0,30)
     oled.text(location,0,40)
-    oled.show()
+    oled.show()    
+    #print("###################################################") If you need these Uncomment them!
+    #print(wind) Its making my IDE laggy so im removing them.
+    #print(pressure)
+    #print(temperature)
+    #print(description)
+    #print(location)
+    #print("###################################################")
