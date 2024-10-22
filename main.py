@@ -85,7 +85,7 @@ while True:
 
     # Wind
     wind = 'Wind:' + str(weather_data.json().get('wind').get('speed')) + 'mps ' + str(weather_data.json().get('wind').get('deg')) + '*'
-
+    oled.fill(0)
     oled.text(wind , 0 ,0)
     oled.text(pressure,0,10)
     oled.text(temperature,0,20)
