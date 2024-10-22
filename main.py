@@ -57,8 +57,9 @@ oled.show()
 oled.fill(0)
 oled.show()
 while True:
-    time.sleep(1)
-    #set your unique OpenWeatherMap.org URL
+    current_time = time.localtime()
+    # Remove             This                                          and this if you dont want seconds.
+    time_str = "%02d:%02d:%02d" % (current_time[3], current_time[4], current_time[5])
     open_weather_map_url = 'http://api.openweathermap.org/data/2.5/weather?q=' + city + ',' + country_code + '&APPID=' + open_weather_map_api_key
 
     weather_data = requests.get(open_weather_map_url)
@@ -91,7 +92,8 @@ while True:
     oled.text(temperature,0,20)
     oled.text(description,0,30)
     oled.text(location,0,40)
-    oled.show()    
+    oled.text(time_str, 0, 50)
+    oled.show()
     #print("###################################################") If you need these Uncomment them!
     #print(wind) Its making my IDE laggy so im removing them.
     #print(pressure)
