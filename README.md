@@ -24,4 +24,6 @@ GND: GND on the Pico
   Setup!
 Copy and paste the code, put in your WiFi credentials on lines 26-27, put your location on lines 34-35, and then last but not least put your location on lines 34-35!
 
+Now for the confusing part setting the time... At face value this sounds simple, just change a paramater and done! Technically you would be right but its werid. The NTP_delta variable you have to change. I have no clue on how to change it properly so I changed a bunch of the numbers hoping eventually it would work, and it did! The time is set to +7 or MST but if you want to change it, your going to struggle so try your best! Unless you know how deltas work.
+
 Again like my last project thne screen is optional, just uncomment lines 95-101 and it will print in the terminal. Also make sure to add a small delay on line 94 so it will not lag as bad.
