@@ -1,6 +1,10 @@
 import time
 from machine import Pin, SoftI2C
 import ssd1306
+import socket
+import struct
+import os
+import ntptime
 
 try:
   import urequests as requests
@@ -23,39 +27,69 @@ oled_width = 128
 oled_height = 64
 oled = ssd1306.SSD1306_I2C(oled_width, oled_height, i2c)
 
-ssid = ' ' # Put your SSID here
-password = 'password' # Put your WiFi Password here
-
 oled.fill(0)
 oled.text("Attempting to",0,0)
 oled.text("Connect",0,10)
 oled.show()
 
-city = 'Phoenix' # This is the city you live in
+city = 'Litchfield%20Park' # This is the city you live in
 country_code = 'US' # This is your 2 letter country code, I think it can be more too.
 #example
 #city = 'Lahore'
 #country_code = 'PAK'
 
-open_weather_map_api_key = '' # Your API Key, make sure to put this there! Otherwise the program wont be able to communicate to OWM.
+open_weather_map_api_key = '99a33c64ef66e5607ef0675742a490de' # Your API Key, make sure to put this there! Otherwise the program wont be able to communicate to OWM.
 
-station = network.WLAN(network.STA_IF)
 
-station.active(True)
-station.connect(ssid, password)
+NTP_DELTA = 4318988400
+host = "pool.ntp.org"
 
-while station.isconnected() == False:
-  pass
+led = Pin("LED", Pin.OUT)
 
-print('Connection successful')
-print(station.ifconfig())
+ssid = ' '
+password = 'password'
+
+def set_time():
+    NTP_QUERY = bytearray(48)
+    NTP_QUERY[0] = 0x1B
+    addr = socket.getaddrinfo(host, 123)[0][-1]
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.settimeout(1)
+        res = s.sendto(NTP_QUERY, addr)
+        msg = s.recv(48)
+    finally:
+        s.close()
+    val = struct.unpack("!I", msg[40:44])[0]
+    t = val - NTP_DELTA    
+    tm = time.gmtime(t)
+    machine.RTC().datetime((tm[0], tm[1], tm[2], tm[6] + 1, tm[3], tm[4], tm[5], 0))
+
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+wlan.connect(ssid, password)
+
+max_wait = 10
+while max_wait > 0:
+    if wlan.status() < 0 or wlan.status() >= 3:
+        break
+    max_wait -= 1
+    print('waiting for connection...')
+    time.sleep(1)
+
+if wlan.status() != 3:
+    raise RuntimeError('network connection failed')
+else:
+    print('connected')
+    status = wlan.ifconfig()
+    print( 'ip = ' + status[0] )
+    oled.fill(0)
+    oled.text("Connected!",0,0)
+    oled.show()
 
 oled.fill(0)
-oled.text("Connected!",0,0)
 oled.show()
-
-oled.fill(0)
-oled.show()
+set_time()
 while True:
     current_time = time.localtime()
     # Remove             This                                          and this if you dont want seconds.
