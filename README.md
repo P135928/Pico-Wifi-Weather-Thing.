@@ -1,10 +1,13 @@
 This is a project I grabbed of the internet that I'm going to be editing to make it better!
 
   Credit
+  This link will also provide on how to get an OpenWeatherMap API key.
 The original project is located here : [https://microcontrollerslab.com/raspberry-pi-pico-w-openweathermap-api-sensorless-weather-station/]
-This link will also provide on how to get an OpenWeatherMap API key.
 
-I  just copied and pasted the code onto here and I am going to make it better by adding some quality of life features. If you can think you can make this code even better, do it! Submit a pull request or something, just make it better!
+  I used this repo for the NTP portion of the code in my repo! I copied and pasted lines 8 to 49 by the way.
+[https://gist.github.com/aallan/581ecf4dc92cd53e3a415b7c33a1147c]
+
+  I  just copied and pasted the code onto here and I am going to make it better by adding some quality of life features. If you can think you can make this code even better, do it! Submit a pull request or something, just make it better!
 
   Requirements:
 Raspberry Pi Pico W
