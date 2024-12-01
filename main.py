@@ -38,7 +38,7 @@ country_code = 'US' # This is your 2 letter country code, I think it can be more
 #city = 'Lahore'
 #country_code = 'PAK'
 
-open_weather_map_api_key = '99a33c64ef66e5607ef0675742a490de' # Your API Key, make sure to put this there! Otherwise the program wont be able to communicate to OWM.
+open_weather_map_api_key = '' # Your API Key, make sure to put this there! Otherwise the program wont be able to communicate to OWM.
 
 
 NTP_DELTA = 4318988400
